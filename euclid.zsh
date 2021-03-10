@@ -46,6 +46,21 @@ euclid::ref() {
   fi
 }
 
+euclid::tracking() {
+  gitstatus_query 'euclid'
+  if [[ "$VCS_STATUS_RESULT" != 'ok-sync' ]]; then
+    return 0
+  elif (( !VCS_STATUS_COMMITS_AHEAD && !VCS_STATUS_COMMITS_BEHIND )); then
+    echo -n "${EUCLID[EVEN]}"
+  elif (( !VCS_STATUS_COMMITS_AHEAD && VCS_STATUS_COMMITS_BEHIND )); then
+    echo -n "${EUCLID[BEHIND]}"
+  elif (( VCS_STATUS_COMMITS_AHEAD && !VCS_STATUS_COMMITS_BEHIND )); then
+    echo -n "${EUCLID[AHEAD]}"
+  elif (( VCS_STATUS_COMMITS_AHEAD && VCS_STATUS_COMMITS_BEHIND )); then
+    echo -n "${EUCLID[DIVERGED]}"
+  fi
+}
+
 setopt prompt_subst transient_rprompt
 PROMPT='$(euclid::logo)$(euclid::path) '
-RPROMPT='$(euclid::ref)'
+RPROMPT='$(euclid::ref)$(euclid::tracking)'
