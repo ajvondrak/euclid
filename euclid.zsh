@@ -6,7 +6,7 @@ typeset -gA EUCLID
 
 EUCLID=(
   [LOGO]="%F{default}\ufa62%f"
-  [PATH]="%F{green}%~%f"
+  [PATH]="%F{green}%~%f "
   [VICMD]="%F{214}\ufa62%f"
   [ERROR]="%F{red}\ufa62%f"
   [REF]="\uf417 %%F{242}%s%%f"
@@ -14,11 +14,11 @@ EUCLID=(
   [AHEAD]="%F{214}+%f"
   [BEHIND]="%F{214}-%f"
   [DIVERGED]="%F{214}!%f"
-  [CLEAN]="%F{green}\uf7d7%f"
-  [STAGED]="%F{green}\uf7d8%f"
-  [UNSTAGED]="%F{red}\uf7d8%f"
-  [CONFLICT]="%F{red}\uf7d7%f"
-  [STASH]="%F{blue}\uf461%f"
+  [CLEAN]=" %F{green}\uf7d7%f"
+  [STAGED]=" %F{green}\uf7d8%f"
+  [UNSTAGED]=" %F{red}\uf7d8%f"
+  [CONFLICT]=" %F{red}\uf7d7%f"
+  [STASH]=" %F{blue}\uf461%f"
 )
 
 euclid::logo() {
@@ -85,5 +85,5 @@ euclid::stash() {
 }
 
 setopt prompt_subst transient_rprompt
-PROMPT='$(euclid::logo)$(euclid::path) '
-RPROMPT='$(euclid::ref)$(euclid::tracking) $(euclid::staging) $(euclid::stash)'
+PROMPT='$(euclid::logo)$(euclid::path)'
+RPROMPT='$(euclid::ref)$(euclid::tracking)$(euclid::staging)$(euclid::stash)'
