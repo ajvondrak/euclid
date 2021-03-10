@@ -22,4 +22,16 @@ EUCLID=(
   [STASH]="%F{blue}\uf461%f"
 )
 
-PROMPT=$(echo -n "%(?.${EUCLID[LOGO]}.${EUCLID[ERROR]})${EUCLID[PATH]} ")
+euclid::logo() {
+  case "$KEYMAP" in
+    vicmd) echo -n "${EUCLID[VICMD]}" ;;
+    *) echo -n "%(?.${EUCLID[LOGO]}.${EUCLID[ERROR]})" ;;
+  esac
+}
+
+euclid::path() {
+  echo -n "${EUCLID[PATH]}"
+}
+
+setopt prompt_subst
+PROMPT='$(euclid::logo)$(euclid::path) '
