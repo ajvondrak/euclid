@@ -17,8 +17,7 @@ EUCLID=(
   [CLEAN]="%F{green}\uf7d7%f"
   [STAGED]="%F{green}\uf7d8%f"
   [UNSTAGED]="%F{red}\uf7d8%f"
-  [DIRTY]="%F{red}\uf7d7%f"
-  [CONFLICT]="%F{red}\ufbdf%f"
+  [CONFLICT]="%F{red}\uf7d7%f"
   [STASH]="%F{blue}\uf461%f"
 )
 
@@ -61,6 +60,21 @@ euclid::tracking() {
   fi
 }
 
+euclid::staging() {
+  gitstatus_query 'euclid'
+  if [[ "$VCS_STATUS_RESULT" != 'ok-sync' ]]; then
+    return 0
+  elif (( VCS_STATUS_HAS_CONFLICTED )); then
+    echo -n "${EUCLID[CONFLICT]}"
+  elif (( !VCS_STATUS_HAS_UNSTAGED && !VCS_STATUS_HAS_STAGED )); then
+    echo -n "${EUCLID[CLEAN]}"
+  elif (( VCS_STATUS_HAS_STAGED )); then
+    echo -n "${EUCLID[STAGED]}"
+  else
+    echo -n "${EUCLID[UNSTAGED]}"
+  fi
+}
+
 setopt prompt_subst transient_rprompt
 PROMPT='$(euclid::logo)$(euclid::path) '
-RPROMPT='$(euclid::ref)$(euclid::tracking)'
+RPROMPT='$(euclid::ref)$(euclid::tracking) $(euclid::staging)'
