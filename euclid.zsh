@@ -21,3 +21,5 @@ EUCLID=(
   [CONFLICT]="%F{red}\ufbdf%f"
   [STASH]="%F{blue}\uf461%f"
 )
+
+PROMPT=$(echo -n "%(?.${EUCLID[LOGO]}.${EUCLID[ERROR]})${EUCLID[PATH]} ")
