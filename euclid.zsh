@@ -75,6 +75,15 @@ euclid::staging() {
   fi
 }
 
+euclid::stash() {
+  gitstatus_query 'euclid'
+  if [[ "$VCS_STATUS_RESULT" != 'ok-sync' ]]; then
+    return 0
+  elif (( VCS_STATUS_STASHES )); then
+    echo -n "${EUCLID[STASH]}"
+  fi
+}
+
 setopt prompt_subst transient_rprompt
 PROMPT='$(euclid::logo)$(euclid::path) '
-RPROMPT='$(euclid::ref)$(euclid::tracking) $(euclid::staging)'
+RPROMPT='$(euclid::ref)$(euclid::tracking) $(euclid::staging) $(euclid::stash)'
