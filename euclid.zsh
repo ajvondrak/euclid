@@ -33,5 +33,19 @@ euclid::path() {
   echo -n "${EUCLID[PATH]}"
 }
 
-setopt prompt_subst
+gitstatus_stop 'euclid' && gitstatus_start 'euclid'
+
+euclid::ref() {
+  gitstatus_query 'euclid'
+  if [[ "$VCS_STATUS_RESULT" != 'ok-sync' ]]; then
+    return 0
+  elif [[ -n "$VCS_STATUS_LOCAL_BRANCH" ]]; then
+    printf "${EUCLID[REF]}" "$VCS_STATUS_LOCAL_BRANCH"
+  else
+    printf "${EUCLID[REF]}" "${VCS_STATUS_COMMIT[1,7]}"
+  fi
+}
+
+setopt prompt_subst transient_rprompt
 PROMPT='$(euclid::logo)$(euclid::path) '
+RPROMPT='$(euclid::ref)'
