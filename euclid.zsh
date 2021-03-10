@@ -47,32 +47,39 @@ euclid::ref() {
 
 euclid::tracking() {
   gitstatus_query 'euclid'
+  local format
   if [[ "$VCS_STATUS_RESULT" != 'ok-sync' ]]; then
     return 0
   elif (( !VCS_STATUS_COMMITS_AHEAD && !VCS_STATUS_COMMITS_BEHIND )); then
-    printf "${EUCLID[EVEN]}"
+    format="${EUCLID[EVEN]}"
   elif (( !VCS_STATUS_COMMITS_AHEAD && VCS_STATUS_COMMITS_BEHIND )); then
-    printf "${EUCLID[BEHIND]}"
+    format="${EUCLID[BEHIND]}"
   elif (( VCS_STATUS_COMMITS_AHEAD && !VCS_STATUS_COMMITS_BEHIND )); then
-    printf "${EUCLID[AHEAD]}"
+    format="${EUCLID[AHEAD]}"
   elif (( VCS_STATUS_COMMITS_AHEAD && VCS_STATUS_COMMITS_BEHIND )); then
-    printf "${EUCLID[DIVERGED]}"
+    format="${EUCLID[DIVERGED]}"
   fi
+  printf "$format" "$VCS_STATUS_COMMITS_AHEAD" "$VCS_STATUS_COMMITS_BEHIND"
 }
 
 euclid::staging() {
   gitstatus_query 'euclid'
+  local format
   if [[ "$VCS_STATUS_RESULT" != 'ok-sync' ]]; then
     return 0
   elif (( VCS_STATUS_HAS_CONFLICTED )); then
-    printf "${EUCLID[CONFLICT]}"
+    printf "${EUCLID[CONFLICT]}" "$VCS_STATUS_NUM_CONFLICTED"
   elif (( !VCS_STATUS_HAS_UNSTAGED && !VCS_STATUS_HAS_STAGED )); then
-    printf "${EUCLID[CLEAN]}"
+    format="${EUCLID[CLEAN]}"
   elif (( VCS_STATUS_HAS_STAGED )); then
-    printf "${EUCLID[STAGED]}"
+    format="${EUCLID[STAGED]}"
   else
-    printf "${EUCLID[UNSTAGED]}"
+    format="${EUCLID[UNSTAGED]}"
   fi
+  printf "$format" \
+    "$VCS_STATUS_NUM_STAGED" \
+    "$VCS_STATUS_NUM_UNSTAGED" \
+    "$VCS_NUM_STATUS_UNTRACKED"
 }
 
 euclid::stash() {
@@ -80,7 +87,7 @@ euclid::stash() {
   if [[ "$VCS_STATUS_RESULT" != 'ok-sync' ]]; then
     return 0
   elif (( VCS_STATUS_STASHES )); then
-    printf "${EUCLID[STASH]}"
+    printf "${EUCLID[STASH]}" "$VCS_STATUS_STASHES"
   fi
 }
 
