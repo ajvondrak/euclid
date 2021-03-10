@@ -9,7 +9,9 @@ EUCLID=(
   [PATH]="%%F{green}%%~%%f "
   [VICMD]="%%F{214}\ufa62%%f"
   [ERROR]="%%F{red}\ufa62%%f"
-  [REF]="\uf417 %%F{242}%s%%f"
+  [TAG]="\uf412 %%F{242}%s%%f"
+  [BRANCH]="\uf418 %%F{242}%s%%f"
+  [COMMIT]="\uf417 %%F{242}%s%%f"
   [EVEN]=""
   [AHEAD]="%%F{214}+%%f"
   [BEHIND]="%%F{214}-%%f"
@@ -38,10 +40,12 @@ euclid::ref() {
   gitstatus_query 'euclid'
   if [[ "$VCS_STATUS_RESULT" != 'ok-sync' ]]; then
     return 0
+  elif [[ -n "$VCS_STATUS_TAG" ]]; then
+    printf "${EUCLID[TAG]}" "$VCS_STATUS_TAG"
   elif [[ -n "$VCS_STATUS_LOCAL_BRANCH" ]]; then
-    printf "${EUCLID[REF]}" "$VCS_STATUS_LOCAL_BRANCH"
+    printf "${EUCLID[BRANCH]}" "$VCS_STATUS_LOCAL_BRANCH"
   else
-    printf "${EUCLID[REF]}" "${VCS_STATUS_COMMIT[1,7]}"
+    printf "${EUCLID[COMMIT]}" "${VCS_STATUS_COMMIT[1,7]}"
   fi
 }
 
