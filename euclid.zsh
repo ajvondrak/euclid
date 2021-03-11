@@ -23,15 +23,19 @@ EUCLID=(
   [STASH]=" %%F{blue}\uf461%%f"
 )
 
+euclid::optics() {
+  echo -n $EUCLID[$1]
+}
+
 euclid::logo() {
   case "$KEYMAP" in
-    vicmd) printf "${EUCLID[VICMD]}" ;;
-    *) printf "%%(?.${EUCLID[LOGO]}.${EUCLID[ERROR]})" ;;
+    vicmd) printf "$(euclid::optics "VICMD")" ;;
+    *) printf "%%(?.$(euclid::optics "LOGO").$(euclid::optics "ERROR"))" ;;
   esac
 }
 
 euclid::path() {
-  printf "${EUCLID[PATH]}"
+  printf "$(euclid::optics "PATH")"
 }
 
 gitstatus_stop 'euclid' && gitstatus_start 'euclid'
@@ -47,39 +51,39 @@ euclid::git() {
 
 euclid::ref() {
   if [[ -n "$VCS_STATUS_TAG" ]]; then
-    printf "${EUCLID[TAG]}" "$VCS_STATUS_TAG"
+    printf "$(euclid::optics "TAG")" "$VCS_STATUS_TAG"
   elif [[ -n "$VCS_STATUS_LOCAL_BRANCH" ]]; then
-    printf "${EUCLID[BRANCH]}" "$VCS_STATUS_LOCAL_BRANCH"
+    printf "$(euclid::optics "BRANCH")" "$VCS_STATUS_LOCAL_BRANCH"
   else
-    printf "${EUCLID[COMMIT]}" "${VCS_STATUS_COMMIT[1,7]}"
+    printf "$(euclid::optics "COMMIT")" "${VCS_STATUS_COMMIT[1,7]}"
   fi
 }
 
 euclid::tracking() {
   local format
   if (( !VCS_STATUS_COMMITS_AHEAD && !VCS_STATUS_COMMITS_BEHIND )); then
-    format="${EUCLID[EVEN]}"
+    format=$(euclid::optics "EVEN")
   elif (( !VCS_STATUS_COMMITS_AHEAD && VCS_STATUS_COMMITS_BEHIND )); then
-    format="${EUCLID[BEHIND]}"
+    format=$(euclid::optics "BEHIND")
   elif (( VCS_STATUS_COMMITS_AHEAD && !VCS_STATUS_COMMITS_BEHIND )); then
-    format="${EUCLID[AHEAD]}"
+    format=$(euclid::optics "AHEAD")
   elif (( VCS_STATUS_COMMITS_AHEAD && VCS_STATUS_COMMITS_BEHIND )); then
-    format="${EUCLID[DIVERGED]}"
+    format=$(euclid::optics "DIVERGED")
   fi
   printf "$format" "$VCS_STATUS_COMMITS_AHEAD" "$VCS_STATUS_COMMITS_BEHIND"
 }
 
 euclid::staging() {
   if (( VCS_STATUS_HAS_CONFLICTED )); then
-    printf "${EUCLID[CONFLICT]}" "$VCS_STATUS_NUM_CONFLICTED"
+    printf $(euclid::optics "CONFLICT") "$VCS_STATUS_NUM_CONFLICTED"
   elif (( !VCS_STATUS_HAS_UNSTAGED &&
           !VCS_STATUS_HAS_STAGED &&
           !VCS_STATUS_HAS_UNTRACKED )); then
-    format="${EUCLID[CLEAN]}"
+    format=$(euclid::optics "CLEAN")
   elif (( VCS_STATUS_HAS_STAGED )); then
-    format="${EUCLID[STAGED]}"
+    format=$(euclid::optics "STAGED")
   else
-    format="${EUCLID[UNSTAGED]}"
+    format=$(euclid::optics "UNSTAGED")
   fi
   printf "$format" \
     "$VCS_STATUS_NUM_STAGED" \
@@ -89,7 +93,7 @@ euclid::staging() {
 
 euclid::stash() {
   if (( VCS_STATUS_STASHES )); then
-    printf "${EUCLID[STASH]}" "$VCS_STATUS_STASHES"
+    printf "$(euclid::optics "STASH")" "$VCS_STATUS_STASHES"
   fi
 }
 
