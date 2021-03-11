@@ -36,11 +36,17 @@ euclid::path() {
 
 gitstatus_stop 'euclid' && gitstatus_start 'euclid'
 
-euclid::ref() {
+euclid::git() {
   gitstatus_query 'euclid'
-  if [[ "$VCS_STATUS_RESULT" != 'ok-sync' ]]; then
-    return 0
-  elif [[ -n "$VCS_STATUS_TAG" ]]; then
+  [[ $VCS_STATUS_RESULT == "ok-sync" ]] || return
+  euclid::ref
+  euclid::tracking
+  euclid::staging
+  euclid::stash
+}
+
+euclid::ref() {
+  if [[ -n "$VCS_STATUS_TAG" ]]; then
     printf "${EUCLID[TAG]}" "$VCS_STATUS_TAG"
   elif [[ -n "$VCS_STATUS_LOCAL_BRANCH" ]]; then
     printf "${EUCLID[BRANCH]}" "$VCS_STATUS_LOCAL_BRANCH"
@@ -50,11 +56,8 @@ euclid::ref() {
 }
 
 euclid::tracking() {
-  gitstatus_query 'euclid'
   local format
-  if [[ "$VCS_STATUS_RESULT" != 'ok-sync' ]]; then
-    return 0
-  elif (( !VCS_STATUS_COMMITS_AHEAD && !VCS_STATUS_COMMITS_BEHIND )); then
+  if (( !VCS_STATUS_COMMITS_AHEAD && !VCS_STATUS_COMMITS_BEHIND )); then
     format="${EUCLID[EVEN]}"
   elif (( !VCS_STATUS_COMMITS_AHEAD && VCS_STATUS_COMMITS_BEHIND )); then
     format="${EUCLID[BEHIND]}"
@@ -67,11 +70,7 @@ euclid::tracking() {
 }
 
 euclid::staging() {
-  gitstatus_query 'euclid'
-  local format
-  if [[ "$VCS_STATUS_RESULT" != 'ok-sync' ]]; then
-    return 0
-  elif (( VCS_STATUS_HAS_CONFLICTED )); then
+  if (( VCS_STATUS_HAS_CONFLICTED )); then
     printf "${EUCLID[CONFLICT]}" "$VCS_STATUS_NUM_CONFLICTED"
   elif (( !VCS_STATUS_HAS_UNSTAGED &&
           !VCS_STATUS_HAS_STAGED &&
@@ -89,14 +88,11 @@ euclid::staging() {
 }
 
 euclid::stash() {
-  gitstatus_query 'euclid'
-  if [[ "$VCS_STATUS_RESULT" != 'ok-sync' ]]; then
-    return 0
-  elif (( VCS_STATUS_STASHES )); then
+  if (( VCS_STATUS_STASHES )); then
     printf "${EUCLID[STASH]}" "$VCS_STATUS_STASHES"
   fi
 }
 
 setopt prompt_subst transient_rprompt
 PROMPT='$(euclid::logo)$(euclid::path)'
-RPROMPT='$(euclid::ref)$(euclid::tracking)$(euclid::staging)$(euclid::stash)'
+RPROMPT='$(euclid::git)'
