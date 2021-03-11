@@ -73,7 +73,9 @@ euclid::staging() {
     return 0
   elif (( VCS_STATUS_HAS_CONFLICTED )); then
     printf "${EUCLID[CONFLICT]}" "$VCS_STATUS_NUM_CONFLICTED"
-  elif (( !VCS_STATUS_HAS_UNSTAGED && !VCS_STATUS_HAS_STAGED )); then
+  elif (( !VCS_STATUS_HAS_UNSTAGED &&
+          !VCS_STATUS_HAS_STAGED &&
+          !VCS_STATUS_HAS_UNTRACKED )); then
     format="${EUCLID[CLEAN]}"
   elif (( VCS_STATUS_HAS_STAGED )); then
     format="${EUCLID[STAGED]}"
