@@ -1,5 +1,7 @@
 # Euclid
 
+![logo](logo.svg)
+
 A minimalist zsh prompt inspired by [geometry](https://github.com/geometry-zsh/geometry).
 
 ## 🚧  UNDER CONSTRUCTION 🚧
