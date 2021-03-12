@@ -64,6 +64,10 @@ euclid::optics "even" ""
 euclid::optics "ahead" "%F{214}"
 euclid::optics "behind" "%F{214}"
 euclid::optics "diverged" "%F{214}"
+euclid::optics "clean" "%F{green}"
+euclid::optics "staged" "%F{green}"
+euclid::optics "unstaged" "%F{red}"
+euclid::optics "conflict" "%F{red}"
 
 euclid::fragment "logo" "\ufa62"
 euclid::fragment "logo vicmd" $(euclid::fragment "logo")
@@ -76,6 +80,10 @@ euclid::fragment "even" ""
 euclid::fragment "ahead" " \uf44d"
 euclid::fragment "behind" " \uf48b"
 euclid::fragment "diverged" " \uf467"
+euclid::fragment "clean" " \uf7d7"
+euclid::fragment "staged" " \uf7d8"
+euclid::fragment "unstaged" " \uf7d8"
+euclid::fragment "conflict" " \uf7d7"
 
 euclid::logo() {
   if [[ $KEYMAP = "vicmd" ]]; then
@@ -143,20 +151,25 @@ euclid::tracking() {
 
 euclid::staging() {
   if (( VCS_STATUS_HAS_CONFLICTED )); then
-    printf $(euclid::optics "CONFLICT") "$VCS_STATUS_NUM_CONFLICTED"
+    euclid::optics "conflict"
+    printf "$(euclid::fragment "conflict")" "$VCS_STATUS_NUM_CONFLICTED"
   elif (( !VCS_STATUS_HAS_UNSTAGED &&
           !VCS_STATUS_HAS_STAGED &&
           !VCS_STATUS_HAS_UNTRACKED )); then
-    format=$(euclid::optics "CLEAN")
+    euclid::optics "clean"
+    format=$(euclid::fragment "clean")
   elif (( VCS_STATUS_HAS_STAGED )); then
-    format=$(euclid::optics "STAGED")
+    euclid::optics "staged"
+    format=$(euclid::fragment "staged")
   else
-    format=$(euclid::optics "UNSTAGED")
+    euclid::optics "unstaged"
+    format=$(euclid::fragment "unstaged")
   fi
   printf "$format" \
     "$VCS_STATUS_NUM_STAGED" \
     "$VCS_STATUS_NUM_UNSTAGED" \
     "$VCS_NUM_STATUS_UNTRACKED"
+  euclid::optics "reset"
 }
 
 euclid::stash() {
