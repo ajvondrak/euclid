@@ -60,6 +60,10 @@ euclid::optics "path" "%F{green}"
 euclid::optics "tag" "%F{13}"
 euclid::optics "branch" "%F{13}"
 euclid::optics "commit" "%F{13}"
+euclid::optics "even" ""
+euclid::optics "ahead" "%F{214}"
+euclid::optics "behind" "%F{214}"
+euclid::optics "diverged" "%F{214}"
 
 euclid::fragment "logo" "\ufa62"
 euclid::fragment "logo vicmd" $(euclid::fragment "logo")
@@ -68,6 +72,10 @@ euclid::fragment "path" "%%~ "
 euclid::fragment "tag" "\uf412 %s"
 euclid::fragment "branch" "\uf418 %s"
 euclid::fragment "commit" "\uf417 %s"
+euclid::fragment "even" ""
+euclid::fragment "ahead" " \uf44d"
+euclid::fragment "behind" " \uf48b"
+euclid::fragment "diverged" " \uf467"
 
 euclid::logo() {
   if [[ $KEYMAP = "vicmd" ]]; then
@@ -117,15 +125,20 @@ euclid::ref() {
 euclid::tracking() {
   local format
   if (( !VCS_STATUS_COMMITS_AHEAD && !VCS_STATUS_COMMITS_BEHIND )); then
-    format=$(euclid::optics "EVEN")
+    euclid::optics "even"
+    format=$(euclid::fragment "even")
   elif (( !VCS_STATUS_COMMITS_AHEAD && VCS_STATUS_COMMITS_BEHIND )); then
-    format=$(euclid::optics "BEHIND")
+    euclid::optics "behind"
+    format=$(euclid::fragment "behind")
   elif (( VCS_STATUS_COMMITS_AHEAD && !VCS_STATUS_COMMITS_BEHIND )); then
-    format=$(euclid::optics "AHEAD")
+    euclid::optics "ahead"
+    format=$(euclid::fragment "ahead")
   elif (( VCS_STATUS_COMMITS_AHEAD && VCS_STATUS_COMMITS_BEHIND )); then
-    format=$(euclid::optics "DIVERGED")
+    euclid::optics "diverged"
+    format=$(euclid::fragment "diverged")
   fi
   printf "$format" "$VCS_STATUS_COMMITS_AHEAD" "$VCS_STATUS_COMMITS_BEHIND"
+  euclid::optics "reset"
 }
 
 euclid::staging() {
