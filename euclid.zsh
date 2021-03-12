@@ -4,28 +4,29 @@ fi
 
 typeset -gA EUCLID
 
-EUCLID=(
-  [LOGO]="%%F{default}\ufa62%%f"
-  [PATH]="%%F{green}%%~%%f "
-  [VICMD]="%%F{214}\ufa62%%f"
-  [ERROR]="%%F{red}\ufa62%%f"
-  [TAG]="%%F{13}\uf412 %s%%f"
-  [BRANCH]="%%F{13}\uf418 %s%%f"
-  [COMMIT]="%%F{13}\uf417 %s%%f"
-  [EVEN]=""
-  [AHEAD]=" %%F{214}\uf44d%%f"
-  [BEHIND]=" %%F{214}\uf48b%%f"
-  [DIVERGED]=" %%F{214}\uf467%%f"
-  [CLEAN]=" %%F{green}\uf7d7%%f"
-  [STAGED]=" %%F{green}\uf7d8%%f"
-  [UNSTAGED]=" %%F{red}\uf7d8%%f"
-  [CONFLICT]=" %%F{red}\uf7d7%%f"
-  [STASH]=" %%F{blue}\uf461%%f"
-)
-
 euclid::optics() {
-  echo -n $EUCLID[$1]
+  case $# in
+    1) echo -n $EUCLID[$1] ;;
+    2) EUCLID+=([$1]=$2) ;;
+  esac
 }
+
+euclid::optics "LOGO" "%%F{default}\ufa62%%f"
+euclid::optics "PATH" "%%F{green}%%~%%f "
+euclid::optics "VICMD" "%%F{214}\ufa62%%f"
+euclid::optics "ERROR" "%%F{red}\ufa62%%f"
+euclid::optics "TAG" "%%F{13}\uf412 %s%%f"
+euclid::optics "BRANCH" "%%F{13}\uf418 %s%%f"
+euclid::optics "COMMIT" "%%F{13}\uf417 %s%%f"
+euclid::optics "EVEN" ""
+euclid::optics "AHEAD" " %%F{214}\uf44d%%f"
+euclid::optics "BEHIND" " %%F{214}\uf48b%%f"
+euclid::optics "DIVERGED" " %%F{214}\uf467%%f"
+euclid::optics "CLEAN" " %%F{green}\uf7d7%%f"
+euclid::optics "STAGED" " %%F{green}\uf7d8%%f"
+euclid::optics "UNSTAGED" " %%F{red}\uf7d8%%f"
+euclid::optics "CONFLICT" " %%F{red}\uf7d7%%f"
+euclid::optics "STASH" " %%F{blue}\uf461%%f"
 
 euclid::logo() {
   case "$KEYMAP" in
