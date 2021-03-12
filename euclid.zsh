@@ -56,10 +56,12 @@ euclid::optics "reset" "%f"
 euclid::optics "logo" "%F{default}"
 euclid::optics "logo vicmd" "%F{214}"
 euclid::optics "logo error" "%F{red}"
+euclid::optics "path" "%F{green}"
 
 euclid::fragment "logo" "\ufa62"
 euclid::fragment "logo vicmd" $(euclid::fragment "logo")
 euclid::fragment "logo error" $(euclid::fragment "logo")
+euclid::fragment "path" "%%~ "
 
 euclid::logo() {
   if [[ $KEYMAP = "vicmd" ]]; then
@@ -74,7 +76,9 @@ euclid::logo() {
 }
 
 euclid::path() {
-  printf "$(euclid::optics "PATH")"
+  euclid::optics "path"
+  printf "$(euclid::fragment "path")"
+  euclid::optics "reset"
 }
 
 gitstatus_stop 'euclid' && gitstatus_start 'euclid'
