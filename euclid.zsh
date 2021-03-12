@@ -51,11 +51,26 @@ euclid::fragment() {
   esac
 }
 
+euclid::optics "reset" "%f"
+
+euclid::optics "logo" "%F{default}"
+euclid::optics "logo vicmd" "%F{214}"
+euclid::optics "logo error" "%F{red}"
+
+euclid::fragment "logo" "\ufa62"
+euclid::fragment "logo vicmd" $(euclid::fragment "logo")
+euclid::fragment "logo error" $(euclid::fragment "logo")
+
 euclid::logo() {
-  case "$KEYMAP" in
-    vicmd) printf "$(euclid::optics "VICMD")" ;;
-    *) printf "%%(?.$(euclid::optics "LOGO").$(euclid::optics "ERROR"))" ;;
-  esac
+  if [[ $KEYMAP = "vicmd" ]]; then
+    euclid::optics "logo vicmd"
+    printf "$(euclid::fragment "logo vicmd")"
+    euclid::optics "reset"
+  else
+    echo -n "%(?.$(euclid::optics "logo").$(euclid::optics "logo error"))"
+    echo -n "%(?.$(euclid::fragment "logo").$(euclid::fragment "logo error"))"
+    euclid::optics "reset"
+  fi
 }
 
 euclid::path() {
