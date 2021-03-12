@@ -57,11 +57,17 @@ euclid::optics "logo" "%F{default}"
 euclid::optics "logo vicmd" "%F{214}"
 euclid::optics "logo error" "%F{red}"
 euclid::optics "path" "%F{green}"
+euclid::optics "tag" "%F{13}"
+euclid::optics "branch" "%F{13}"
+euclid::optics "commit" "%F{13}"
 
 euclid::fragment "logo" "\ufa62"
 euclid::fragment "logo vicmd" $(euclid::fragment "logo")
 euclid::fragment "logo error" $(euclid::fragment "logo")
 euclid::fragment "path" "%%~ "
+euclid::fragment "tag" "\uf412 %s"
+euclid::fragment "branch" "\uf418 %s"
+euclid::fragment "commit" "\uf417 %s"
 
 euclid::logo() {
   if [[ $KEYMAP = "vicmd" ]]; then
@@ -94,11 +100,17 @@ euclid::git() {
 
 euclid::ref() {
   if [[ -n "$VCS_STATUS_TAG" ]]; then
-    printf "$(euclid::optics "TAG")" "$VCS_STATUS_TAG"
+    euclid::optics "tag"
+    printf "$(euclid::fragment "tag")" "$VCS_STATUS_TAG"
+    euclid::optics "reset"
   elif [[ -n "$VCS_STATUS_LOCAL_BRANCH" ]]; then
-    printf "$(euclid::optics "BRANCH")" "$VCS_STATUS_LOCAL_BRANCH"
+    euclid::optics "branch"
+    printf "$(euclid::fragment "branch")" "$VCS_STATUS_LOCAL_BRANCH"
+    euclid::optics "reset"
   else
-    printf "$(euclid::optics "COMMIT")" "${VCS_STATUS_COMMIT[1,7]}"
+    euclid::optics "commit"
+    printf "$(euclid::fragment "commit")" "${VCS_STATUS_COMMIT[1,7]}"
+    euclid::optics "reset"
   fi
 }
 
