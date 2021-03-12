@@ -2,12 +2,16 @@ if ! [[ -v _gitstatus_plugin_dir ]] ; then
   source "${0:A:h}/gitstatus/gitstatus.plugin.zsh"
 fi
 
-typeset -gA EUCLID
-
 euclid::optics() {
   case $# in
-    1) echo -n $EUCLID[$1] ;;
-    2) EUCLID+=([$1]=$2) ;;
+    1)
+      local optics
+      zstyle -s ":euclid:optics" "$1" optics
+      echo -n "$optics"
+      ;;
+    2)
+      zstyle ":euclid:optics" "$1" "$2"
+      ;;
   esac
 }
 
