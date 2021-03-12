@@ -69,11 +69,17 @@ euclid::fragment "unstaged" " \uf7d8"
 euclid::fragment "conflict" " \uf7d7"
 euclid::fragment "stash" " \uf461"
 
+euclid::element() {
+  local id=$1
+  shift
+  euclid::optics "$id"
+  printf "$(euclid::fragment "$id")" $@
+  euclid::optics "reset"
+}
+
 euclid::logo() {
   if [[ $KEYMAP = "vicmd" ]]; then
-    euclid::optics "logo vicmd"
-    printf "$(euclid::fragment "logo vicmd")"
-    euclid::optics "reset"
+    euclid::element "logo vicmd"
   else
     echo -n "%(?.$(euclid::optics "logo").$(euclid::optics "logo error"))"
     echo -n "%(?.$(euclid::fragment "logo").$(euclid::fragment "logo error"))"
@@ -82,9 +88,7 @@ euclid::logo() {
 }
 
 euclid::path() {
-  euclid::optics "path"
-  printf "$(euclid::fragment "path")"
-  euclid::optics "reset"
+  euclid::element "path"
 }
 
 gitstatus_stop 'euclid' && gitstatus_start 'euclid'
@@ -100,67 +104,49 @@ euclid::git() {
 
 euclid::ref() {
   if [[ -n "$VCS_STATUS_TAG" ]]; then
-    euclid::optics "tag"
-    printf "$(euclid::fragment "tag")" "$VCS_STATUS_TAG"
-    euclid::optics "reset"
+    euclid::element "tag" "$VCS_STATUS_TAG"
   elif [[ -n "$VCS_STATUS_LOCAL_BRANCH" ]]; then
-    euclid::optics "branch"
-    printf "$(euclid::fragment "branch")" "$VCS_STATUS_LOCAL_BRANCH"
-    euclid::optics "reset"
+    euclid::element "branch" "$VCS_STATUS_LOCAL_BRANCH"
   else
-    euclid::optics "commit"
-    printf "$(euclid::fragment "commit")" "${VCS_STATUS_COMMIT[1,7]}"
-    euclid::optics "reset"
+    euclid::element "commit" "${VCS_STATUS_COMMIT[1,7]}"
   fi
 }
 
 euclid::tracking() {
-  local format
-  if (( !VCS_STATUS_COMMITS_AHEAD && !VCS_STATUS_COMMITS_BEHIND )); then
-    euclid::optics "even"
-    format=$(euclid::fragment "even")
-  elif (( !VCS_STATUS_COMMITS_AHEAD && VCS_STATUS_COMMITS_BEHIND )); then
-    euclid::optics "behind"
-    format=$(euclid::fragment "behind")
-  elif (( VCS_STATUS_COMMITS_AHEAD && !VCS_STATUS_COMMITS_BEHIND )); then
-    euclid::optics "ahead"
-    format=$(euclid::fragment "ahead")
-  elif (( VCS_STATUS_COMMITS_AHEAD && VCS_STATUS_COMMITS_BEHIND )); then
-    euclid::optics "diverged"
-    format=$(euclid::fragment "diverged")
+  local ahead=$VCS_STATUS_COMMITS_AHEAD behind=$VCS_STATUS_COMMITS_BEHIND
+
+  if (( !ahead && !behind )); then
+    euclid::element "even" $ahead $behind
+  elif (( !ahead && behind )); then
+    euclid::element "behind" $ahead $behind
+  elif (( ahead && !behind )); then
+    euclid::element "ahead" $ahead $behind
+  elif (( ahead && behind )); then
+    euclid::element "diverged" $ahead $behind
   fi
-  printf "$format" "$VCS_STATUS_COMMITS_AHEAD" "$VCS_STATUS_COMMITS_BEHIND"
-  euclid::optics "reset"
 }
 
 euclid::staging() {
-  if (( VCS_STATUS_HAS_CONFLICTED )); then
-    euclid::optics "conflict"
-    printf "$(euclid::fragment "conflict")" "$VCS_STATUS_NUM_CONFLICTED"
-  elif (( !VCS_STATUS_HAS_UNSTAGED &&
-          !VCS_STATUS_HAS_STAGED &&
-          !VCS_STATUS_HAS_UNTRACKED )); then
-    euclid::optics "clean"
-    format=$(euclid::fragment "clean")
-  elif (( VCS_STATUS_HAS_STAGED )); then
-    euclid::optics "staged"
-    format=$(euclid::fragment "staged")
+  local staged unstaged untracked conflicts
+  staged=$VCS_STATUS_NUM_STAGED
+  unstaged=$VCS_STATUS_NUM_UNSTAGED
+  untracked=$VCS_STATUS_NUM_UNTRACKED
+  conflicts=$VCS_STATUS_NUM_CONFLICTED
+
+  if (( conflicts )); then
+    euclid::element "conflict" $conflicts
+  elif (( !staged && !unstaged && !untracked )); then
+    euclid::element "clean" $staged $unstaged $untracked
+  elif (( staged )); then
+    euclid::element "staged" $staged $unstaged $untracked
   else
-    euclid::optics "unstaged"
-    format=$(euclid::fragment "unstaged")
+    euclid::element "unstaged" $staged $unstaged $untracked
   fi
-  printf "$format" \
-    "$VCS_STATUS_NUM_STAGED" \
-    "$VCS_STATUS_NUM_UNSTAGED" \
-    "$VCS_NUM_STATUS_UNTRACKED"
-  euclid::optics "reset"
 }
 
 euclid::stash() {
   if (( VCS_STATUS_STASHES )); then
-    euclid::optics "stash"
-    printf "$(euclid::fragment "stash")" "$VCS_STATUS_STASHES"
-    euclid::optics "reset"
+    euclid::element "stash" "$VCS_STATUS_STASHES"
   fi
 }
 
