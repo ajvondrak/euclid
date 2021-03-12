@@ -35,6 +35,22 @@ euclid::optics "UNSTAGED" " %%F{red}\uf7d8%%f"
 euclid::optics "CONFLICT" " %%F{red}\uf7d7%%f"
 euclid::optics "STASH" " %%F{blue}\uf461%%f"
 
+euclid::fragment() {
+  case $# in
+    1)
+      local fragment
+      zstyle -s ":euclid:fragments" "$1" fragment
+      echo -n "$fragment"
+      ;;
+    2)
+      zstyle ":euclid:fragments" "$1" "$2"
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
 euclid::logo() {
   case "$KEYMAP" in
     vicmd) printf "$(euclid::optics "VICMD")" ;;
