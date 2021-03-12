@@ -68,6 +68,7 @@ euclid::optics "clean" "%F{green}"
 euclid::optics "staged" "%F{green}"
 euclid::optics "unstaged" "%F{red}"
 euclid::optics "conflict" "%F{red}"
+euclid::optics "stash" "%F{blue}"
 
 euclid::fragment "logo" "\ufa62"
 euclid::fragment "logo vicmd" $(euclid::fragment "logo")
@@ -84,6 +85,7 @@ euclid::fragment "clean" " \uf7d7"
 euclid::fragment "staged" " \uf7d8"
 euclid::fragment "unstaged" " \uf7d8"
 euclid::fragment "conflict" " \uf7d7"
+euclid::fragment "stash" " \uf461"
 
 euclid::logo() {
   if [[ $KEYMAP = "vicmd" ]]; then
@@ -174,7 +176,9 @@ euclid::staging() {
 
 euclid::stash() {
   if (( VCS_STATUS_STASHES )); then
-    printf "$(euclid::optics "STASH")" "$VCS_STATUS_STASHES"
+    euclid::optics "stash"
+    printf "$(euclid::fragment "stash")" "$VCS_STATUS_STASHES"
+    euclid::optics "reset"
   fi
 }
 
