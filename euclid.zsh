@@ -18,41 +18,7 @@ euclid::optics() {
   esac
 }
 
-euclid::optics "LOGO" "%%F{default}\ufa62%%f"
-euclid::optics "PATH" "%%F{green}%%~%%f "
-euclid::optics "VICMD" "%%F{214}\ufa62%%f"
-euclid::optics "ERROR" "%%F{red}\ufa62%%f"
-euclid::optics "TAG" "%%F{13}\uf412 %s%%f"
-euclid::optics "BRANCH" "%%F{13}\uf418 %s%%f"
-euclid::optics "COMMIT" "%%F{13}\uf417 %s%%f"
-euclid::optics "EVEN" ""
-euclid::optics "AHEAD" " %%F{214}\uf44d%%f"
-euclid::optics "BEHIND" " %%F{214}\uf48b%%f"
-euclid::optics "DIVERGED" " %%F{214}\uf467%%f"
-euclid::optics "CLEAN" " %%F{green}\uf7d7%%f"
-euclid::optics "STAGED" " %%F{green}\uf7d8%%f"
-euclid::optics "UNSTAGED" " %%F{red}\uf7d8%%f"
-euclid::optics "CONFLICT" " %%F{red}\uf7d7%%f"
-euclid::optics "STASH" " %%F{blue}\uf461%%f"
-
-euclid::fragment() {
-  case $# in
-    1)
-      local fragment
-      zstyle -s ":euclid:fragments" "$1" fragment
-      echo -n "$fragment"
-      ;;
-    2)
-      zstyle ":euclid:fragments" "$1" "$2"
-      ;;
-    *)
-      return 1
-      ;;
-  esac
-}
-
 euclid::optics "reset" "%f"
-
 euclid::optics "logo" "%F{default}"
 euclid::optics "logo vicmd" "%F{214}"
 euclid::optics "logo error" "%F{red}"
@@ -69,6 +35,22 @@ euclid::optics "staged" "%F{green}"
 euclid::optics "unstaged" "%F{red}"
 euclid::optics "conflict" "%F{red}"
 euclid::optics "stash" "%F{blue}"
+
+euclid::fragment() {
+  case $# in
+    1)
+      local fragment
+      zstyle -s ":euclid:fragments" "$1" fragment
+      echo -n "$fragment"
+      ;;
+    2)
+      zstyle ":euclid:fragments" "$1" "$2"
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
 
 euclid::fragment "logo" "\ufa62"
 euclid::fragment "logo vicmd" $(euclid::fragment "logo")
