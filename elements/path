@@ -1,0 +1,9 @@
+# vim: filetype=zsh
+
+euclid::optics "path" "green"
+
+euclid::fragment "path" "%%~ "
+
+euclid::path() {
+  euclid::element "path"
+}
