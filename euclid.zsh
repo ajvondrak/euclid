@@ -12,6 +12,9 @@ euclid::optics() {
     2)
       zstyle ":euclid:optics" "$1" "$2"
       ;;
+    *)
+      return 1
+      ;;
   esac
 }
 
