@@ -7,7 +7,7 @@ euclid::optics() {
     1)
       local optics
       zstyle -s ":euclid:optics" "$1" optics
-      echo -n "$optics"
+      echo -n "%F{${optics:-default}}"
       ;;
     2)
       zstyle ":euclid:optics" "$1" "$2"
@@ -18,23 +18,22 @@ euclid::optics() {
   esac
 }
 
-euclid::optics "reset" "%f"
-euclid::optics "logo" "%F{default}"
-euclid::optics "logo vicmd" "%F{214}"
-euclid::optics "logo error" "%F{red}"
-euclid::optics "path" "%F{green}"
-euclid::optics "tag" "%F{13}"
-euclid::optics "branch" "%F{13}"
-euclid::optics "commit" "%F{13}"
-euclid::optics "even" ""
-euclid::optics "ahead" "%F{214}"
-euclid::optics "behind" "%F{214}"
-euclid::optics "diverged" "%F{214}"
-euclid::optics "clean" "%F{green}"
-euclid::optics "staged" "%F{green}"
-euclid::optics "unstaged" "%F{red}"
-euclid::optics "conflict" "%F{red}"
-euclid::optics "stash" "%F{blue}"
+euclid::optics "logo" "default"
+euclid::optics "logo vicmd" "214"
+euclid::optics "logo error" "red"
+euclid::optics "path" "green"
+euclid::optics "tag" "13"
+euclid::optics "branch" "13"
+euclid::optics "commit" "13"
+euclid::optics "even" "214"
+euclid::optics "ahead" "214"
+euclid::optics "behind" "214"
+euclid::optics "diverged" "214"
+euclid::optics "clean" "green"
+euclid::optics "staged" "green"
+euclid::optics "unstaged" "red"
+euclid::optics "conflict" "red"
+euclid::optics "stash" "blue"
 
 euclid::fragment() {
   case $# in
@@ -74,7 +73,7 @@ euclid::element() {
   shift
   euclid::optics "$id"
   printf "$(euclid::fragment "$id")" $@
-  euclid::optics "reset"
+  echo -n "%f"
 }
 
 euclid::logo() {
@@ -83,7 +82,7 @@ euclid::logo() {
   else
     echo -n "%(?.$(euclid::optics "logo").$(euclid::optics "logo error"))"
     echo -n "%(?.$(euclid::fragment "logo").$(euclid::fragment "logo error"))"
-    euclid::optics "reset"
+    echo -n "%f"
   fi
 }
 
