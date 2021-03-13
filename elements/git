@@ -15,57 +15,52 @@ euclid::git() {
   euclid::stash
 }
 
-euclid::optics "tag" "13"
-euclid::optics "branch" "13"
-euclid::optics "commit" "13"
+euclid::optics "git:ref" "13"
 
-euclid::fragment "tag" "\uf412 %s"
-euclid::fragment "branch" "\uf418 %s"
-euclid::fragment "commit" "\uf417 %s"
+euclid::fragment "git:ref:tag" "\uf412 %s"
+euclid::fragment "git:ref:branch" "\uf418 %s"
+euclid::fragment "git:ref:commit" "\uf417 %s"
 
 euclid::ref() {
   if [[ -n "$VCS_STATUS_TAG" ]]; then
-    euclid::element "tag" "$VCS_STATUS_TAG"
+    euclid::element "git:ref:tag" "$VCS_STATUS_TAG"
   elif [[ -n "$VCS_STATUS_LOCAL_BRANCH" ]]; then
-    euclid::element "branch" "$VCS_STATUS_LOCAL_BRANCH"
+    euclid::element "git:ref:branch" "$VCS_STATUS_LOCAL_BRANCH"
   else
-    euclid::element "commit" "${VCS_STATUS_COMMIT[1,7]}"
+    euclid::element "git:ref:commit" "${VCS_STATUS_COMMIT[1,7]}"
   fi
 }
 
-euclid::optics "even" "214"
-euclid::optics "ahead" "214"
-euclid::optics "behind" "214"
-euclid::optics "diverged" "214"
+euclid::optics "git:tracking" "214"
 
-euclid::fragment "even" ""
-euclid::fragment "ahead" " \uf44d"
-euclid::fragment "behind" " \uf48b"
-euclid::fragment "diverged" " \uf467"
+euclid::fragment "git:tracking:even" ""
+euclid::fragment "git:tracking:ahead" " \uf44d"
+euclid::fragment "git:tracking:behind" " \uf48b"
+euclid::fragment "git:tracking:diverged" " \uf467"
 
 euclid::tracking() {
   local ahead=$VCS_STATUS_COMMITS_AHEAD behind=$VCS_STATUS_COMMITS_BEHIND
 
   if (( !ahead && !behind )); then
-    euclid::element "even" $ahead $behind
+    euclid::element "git:tracking:even" $ahead $behind
   elif (( !ahead && behind )); then
-    euclid::element "behind" $ahead $behind
+    euclid::element "git:tracking:behind" $ahead $behind
   elif (( ahead && !behind )); then
-    euclid::element "ahead" $ahead $behind
+    euclid::element "git:tracking:ahead" $ahead $behind
   elif (( ahead && behind )); then
-    euclid::element "diverged" $ahead $behind
+    euclid::element "git:tracking:diverged" $ahead $behind
   fi
 }
 
-euclid::optics "clean" "green"
-euclid::optics "staged" "green"
-euclid::optics "unstaged" "red"
-euclid::optics "conflict" "red"
+euclid::optics "git:index:clean" "green"
+euclid::optics "git:index:staged" "green"
+euclid::optics "git:index:unstaged" "red"
+euclid::optics "git:index:conflict" "red"
 
-euclid::fragment "clean" " \uf7d7"
-euclid::fragment "staged" " \uf7d8"
-euclid::fragment "unstaged" " \uf7d8"
-euclid::fragment "conflict" " \uf7d7"
+euclid::fragment "git:index:clean" " \uf7d7"
+euclid::fragment "git:index:staged" " \uf7d8"
+euclid::fragment "git:index:unstaged" " \uf7d8"
+euclid::fragment "git:index:conflict" " \uf7d7"
 
 euclid::staging() {
   local staged unstaged untracked conflicts
@@ -75,22 +70,22 @@ euclid::staging() {
   conflicts=$VCS_STATUS_NUM_CONFLICTED
 
   if (( conflicts )); then
-    euclid::element "conflict" $conflicts
+    euclid::element "git:index:conflict" $conflicts
   elif (( !staged && !unstaged && !untracked )); then
-    euclid::element "clean" $staged $unstaged $untracked
+    euclid::element "git:index:clean" $staged $unstaged $untracked
   elif (( staged )); then
-    euclid::element "staged" $staged $unstaged $untracked
+    euclid::element "git:index:staged" $staged $unstaged $untracked
   else
-    euclid::element "unstaged" $staged $unstaged $untracked
+    euclid::element "git:index:unstaged" $staged $unstaged $untracked
   fi
 }
 
-euclid::optics "stash" "blue"
+euclid::optics "git:stash" "blue"
 
-euclid::fragment "stash" " \uf461"
+euclid::fragment "git:stash" " \uf461"
 
 euclid::stash() {
   if (( VCS_STATUS_STASHES )); then
-    euclid::element "stash" "$VCS_STATUS_STASHES"
+    euclid::element "git:stash" "$VCS_STATUS_STASHES"
   fi
 }

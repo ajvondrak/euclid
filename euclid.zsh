@@ -4,11 +4,11 @@ euclid::optics() {
   case $# in
     1)
       local optics
-      zstyle -s ":euclid:optics" "$1" optics
+      zstyle -s ":euclid:$1" "optics" optics
       echo -n "%F{${optics:-default}}"
       ;;
     2)
-      zstyle ":euclid:optics" "$1" "$2"
+      zstyle ":euclid:$1*" "optics" "$2"
       ;;
     *)
       return 1
@@ -20,11 +20,11 @@ euclid::fragment() {
   case $# in
     1)
       local fragment
-      zstyle -s ":euclid:fragments" "$1" fragment
+      zstyle -s ":euclid:$1" "fragment" fragment
       echo -n "$fragment"
       ;;
     2)
-      zstyle ":euclid:fragments" "$1" "$2"
+      zstyle ":euclid:$1*" "fragment" "$2"
       ;;
     *)
       return 1
