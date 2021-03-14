@@ -3,7 +3,12 @@ typeset -g EUCLID="${0:A:h}"
 euclid::elements() {
   local element
   local -a elements
-  for element in $@; elements+="\$(euclid::element $element)"
+
+  for element in $@; do
+    element=$(euclid::element $element)
+    [[ -n $element ]] && elements+=$element
+  done
+
   echo -n "${(j: :)elements}"
 }
 
@@ -71,5 +76,5 @@ function {
 }
 
 setopt prompt_subst transient_rprompt
-PROMPT=$(euclid::elements "logo" "path")
-RPROMPT=$(euclid::elements "git:ref" "git:tracking" "git:index" "git:stash")
+PROMPT='$(euclid::elements "logo" "path")'
+RPROMPT='$(euclid::elements "git:ref" "git:tracking" "git:index" "git:stash")'
