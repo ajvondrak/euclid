@@ -5,5 +5,5 @@ euclid::optics "path" "green"
 euclid::data "path" "%%~ "
 
 euclid::path() {
-  euclid::element "path"
+  euclid::fragment "path"
 }

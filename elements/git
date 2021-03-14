@@ -23,11 +23,11 @@ euclid::data "git:ref:commit" "\uf417 %s"
 
 euclid::ref() {
   if [[ -n "$VCS_STATUS_TAG" ]]; then
-    euclid::element "git:ref:tag" "$VCS_STATUS_TAG"
+    euclid::fragment "git:ref:tag" "$VCS_STATUS_TAG"
   elif [[ -n "$VCS_STATUS_LOCAL_BRANCH" ]]; then
-    euclid::element "git:ref:branch" "$VCS_STATUS_LOCAL_BRANCH"
+    euclid::fragment "git:ref:branch" "$VCS_STATUS_LOCAL_BRANCH"
   else
-    euclid::element "git:ref:commit" "${VCS_STATUS_COMMIT[1,7]}"
+    euclid::fragment "git:ref:commit" "${VCS_STATUS_COMMIT[1,7]}"
   fi
 }
 
@@ -42,13 +42,13 @@ euclid::tracking() {
   local ahead=$VCS_STATUS_COMMITS_AHEAD behind=$VCS_STATUS_COMMITS_BEHIND
 
   if (( !ahead && !behind )); then
-    euclid::element "git:tracking:even" $ahead $behind
+    euclid::fragment "git:tracking:even" $ahead $behind
   elif (( !ahead && behind )); then
-    euclid::element "git:tracking:behind" $ahead $behind
+    euclid::fragment "git:tracking:behind" $ahead $behind
   elif (( ahead && !behind )); then
-    euclid::element "git:tracking:ahead" $ahead $behind
+    euclid::fragment "git:tracking:ahead" $ahead $behind
   elif (( ahead && behind )); then
-    euclid::element "git:tracking:diverged" $ahead $behind
+    euclid::fragment "git:tracking:diverged" $ahead $behind
   fi
 }
 
@@ -70,13 +70,13 @@ euclid::staging() {
   conflicts=$VCS_STATUS_NUM_CONFLICTED
 
   if (( conflicts )); then
-    euclid::element "git:index:conflict" $conflicts
+    euclid::fragment "git:index:conflict" $conflicts
   elif (( !staged && !unstaged && !untracked )); then
-    euclid::element "git:index:clean" $staged $unstaged $untracked
+    euclid::fragment "git:index:clean" $staged $unstaged $untracked
   elif (( staged )); then
-    euclid::element "git:index:staged" $staged $unstaged $untracked
+    euclid::fragment "git:index:staged" $staged $unstaged $untracked
   else
-    euclid::element "git:index:unstaged" $staged $unstaged $untracked
+    euclid::fragment "git:index:unstaged" $staged $unstaged $untracked
   fi
 }
 
@@ -86,6 +86,6 @@ euclid::data "git:stash" " \uf461"
 
 euclid::stash() {
   if (( VCS_STATUS_STASHES )); then
-    euclid::element "git:stash" "$VCS_STATUS_STASHES"
+    euclid::fragment "git:stash" "$VCS_STATUS_STASHES"
   fi
 }

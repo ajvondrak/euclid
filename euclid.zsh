@@ -32,7 +32,7 @@ euclid::data() {
   esac
 }
 
-euclid::element() {
+euclid::fragment() {
   local id=$1
   shift
   euclid::optics "$id"

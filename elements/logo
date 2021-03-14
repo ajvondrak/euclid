@@ -8,7 +8,7 @@ euclid::data "logo" "\ufa62"
 
 euclid::logo() {
   if [[ $KEYMAP = "vicmd" ]]; then
-    euclid::element "logo:vicmd"
+    euclid::fragment "logo:vicmd"
   else
     echo -n "%(?.$(euclid::optics "logo").$(euclid::optics "logo:error"))"
     echo -n "%(?.$(euclid::data "logo").$(euclid::data "logo:error"))"
