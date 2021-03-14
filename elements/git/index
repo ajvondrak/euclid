@@ -1,0 +1,32 @@
+# vim: filetype=zsh
+
+euclid::optics "git:index:clean" "green"
+euclid::optics "git:index:staged" "green"
+euclid::optics "git:index:unstaged" "red"
+euclid::optics "git:index:conflict" "red"
+
+euclid::data "git:index:clean" "\uf7d7"
+euclid::data "git:index:staged" "\uf7d8"
+euclid::data "git:index:unstaged" "\uf7d8"
+euclid::data "git:index:conflict" "\uf7d7"
+
+euclid::element "git:index" euclid::elements::git::index
+
+euclid::elements::git::index() {
+  [[ $VCS_STATUS_RESULT == "ok-sync" ]] || return
+
+  local staged=$VCS_STATUS_NUM_STAGED
+  local unstaged=$VCS_STATUS_NUM_UNSTAGED
+  local untracked=$VCS_STATUS_NUM_UNTRACKED
+  local conflicts=$VCS_STATUS_NUM_CONFLICTED
+
+  if (( conflicts )); then
+    euclid::fragment "git:index:conflict" $conflicts
+  elif (( !staged && !unstaged && !untracked )); then
+    euclid::fragment "git:index:clean" $staged $unstaged $untracked
+  elif (( staged )); then
+    euclid::fragment "git:index:staged" $staged $unstaged $untracked
+  else
+    euclid::fragment "git:index:unstaged" $staged $unstaged $untracked
+  fi
+}

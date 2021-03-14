@@ -1,0 +1,25 @@
+# vim: filetype=zsh
+
+euclid::optics "git:ref" "13"
+
+euclid::data "git:ref:tag" "\uf412 %s"
+euclid::data "git:ref:branch" "\uf418 %s"
+euclid::data "git:ref:commit" "\uf417 %s"
+
+euclid::element "git:ref" euclid::elements::git::ref
+
+euclid::elements::git::ref() {
+  [[ $VCS_STATUS_RESULT == "ok-sync" ]] || return
+
+  local tag=$VCS_STATUS_TAG
+  local branch=$VCS_STATUS_LOCAL_BRANCH
+  local commit=$VCS_STATUS_COMMIT
+
+  if [[ -n $tag ]]; then
+    euclid::fragment "git:ref:tag" "$tag"
+  elif [[ -n $branch ]]; then
+    euclid::fragment "git:ref:branch" "$branch"
+  elif [[ -n $commit ]]; then
+    euclid::fragment "git:ref:commit" "${commit[1,7]}"
+  fi
+}

@@ -64,10 +64,12 @@ euclid::fragment() {
 }
 
 function {
-  local element
-  for element ($EUCLID/elements/*) source $element
+  autoload -Uz add-zsh-hook
+  setopt localoptions extendedglob
+  local file
+  for file ($EUCLID/data/**/* $EUCLID/elements/**/*) source $file
 }
 
 setopt prompt_subst transient_rprompt
 PROMPT=$(euclid::elements "logo" "path")
-RPROMPT=$(euclid::elements "git")
+RPROMPT=$(euclid::elements "git:ref" "git:tracking" "git:index" "git:stash")

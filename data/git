@@ -1,0 +1,13 @@
+# vim: filetype=zsh
+
+if ! [[ -v _gitstatus_plugin_dir ]] ; then
+  source "$EUCLID/gitstatus/gitstatus.plugin.zsh"
+fi
+
+gitstatus_stop "euclid" && gitstatus_start "euclid"
+
+euclid::data::git() {
+  gitstatus_query "euclid"
+}
+
+add-zsh-hook precmd euclid::data::git

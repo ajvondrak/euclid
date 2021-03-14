@@ -1,0 +1,15 @@
+# vim: filetype=zsh
+
+euclid::optics "git:stash" "blue"
+euclid::data "git:stash" "\uf461"
+euclid::element "git:stash" euclid::elements::git::stash
+
+euclid::elements::git::stash() {
+  [[ $VCS_STATUS_RESULT == "ok-sync" ]] || return
+
+  local stashed=$VCS_STATUS_STASHES
+
+  if (( stashed )); then
+    euclid::fragment "git:stash" $stashed
+  fi
+}

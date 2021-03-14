@@ -1,0 +1,27 @@
+# vim: filetype=zsh
+
+euclid::optics "git:tracking" "214"
+
+euclid::data "git:tracking:even" ""
+euclid::data "git:tracking:ahead" "\uf44d"
+euclid::data "git:tracking:behind" "\uf48b"
+euclid::data "git:tracking:diverged" "\uf467"
+
+euclid::element "git:tracking" euclid::elements::git::tracking
+
+euclid::elements::git::tracking() {
+  [[ $VCS_STATUS_RESULT == "ok-sync" ]] || return
+
+  local ahead=$VCS_STATUS_COMMITS_AHEAD
+  local behind=$VCS_STATUS_COMMITS_BEHIND
+
+  if (( !ahead && !behind )); then
+    euclid::fragment "git:tracking:even" $ahead $behind
+  elif (( !ahead && behind )); then
+    euclid::fragment "git:tracking:behind" $ahead $behind
+  elif (( ahead && !behind )); then
+    euclid::fragment "git:tracking:ahead" $ahead $behind
+  elif (( ahead && behind )); then
+    euclid::fragment "git:tracking:diverged" $ahead $behind
+  fi
+}
