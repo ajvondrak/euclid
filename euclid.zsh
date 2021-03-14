@@ -61,11 +61,15 @@ euclid::data() {
 }
 
 euclid::fragment() {
-  local id=$1
+  local name=$1
+  local data
   shift
-  euclid::optics "$id"
-  printf "$(euclid::data "$id")" $@
-  echo -n "%f"
+  data=$(printf "$(euclid::data "$name")" $@)
+  if [[ -n $data ]]; then
+    euclid::optics "$name"
+    echo -n "$data"
+    echo -n "%f"
+  fi
 }
 
 function {
