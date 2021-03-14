@@ -6,7 +6,9 @@ euclid::optics "logo:error" "red"
 
 euclid::data "logo" "\ufa62"
 
-euclid::logo() {
+euclid::element "logo" euclid::elements::logo
+
+euclid::elements::logo() {
   if [[ $KEYMAP = "vicmd" ]]; then
     euclid::fragment "logo:vicmd"
   else

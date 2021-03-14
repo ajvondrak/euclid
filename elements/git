@@ -6,7 +6,9 @@ fi
 
 gitstatus_stop "euclid" && gitstatus_start "euclid"
 
-euclid::git() {
+euclid::element "git" euclid::elements::git
+
+euclid::elements::git() {
   gitstatus_query "euclid"
   [[ $VCS_STATUS_RESULT == "ok-sync" ]] || return
   euclid::ref

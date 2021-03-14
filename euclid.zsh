@@ -1,5 +1,28 @@
 typeset -g EUCLID="${0:A:h}"
 
+euclid::elements() {
+  local element
+  local -a elements
+  for element in $@; elements+="\$(euclid::element $element)"
+  echo -n "${(j: :)elements}"
+}
+
+euclid::element() {
+  case $# in
+    1)
+      local element
+      zstyle -s ":euclid:elements" "$1" element
+      $element
+      ;;
+    2)
+      zstyle ":euclid:elements" "$1" "$2"
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
 euclid::optics() {
   case $# in
     1)
@@ -46,5 +69,5 @@ function {
 }
 
 setopt prompt_subst transient_rprompt
-PROMPT='$(euclid::logo)$(euclid::path)'
-RPROMPT='$(euclid::git)'
+PROMPT=$(euclid::elements "logo" "path")
+RPROMPT=$(euclid::elements "git")
