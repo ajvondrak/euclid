@@ -17,9 +17,9 @@ euclid::git() {
 
 euclid::optics "git:ref" "13"
 
-euclid::fragment "git:ref:tag" "\uf412 %s"
-euclid::fragment "git:ref:branch" "\uf418 %s"
-euclid::fragment "git:ref:commit" "\uf417 %s"
+euclid::data "git:ref:tag" "\uf412 %s"
+euclid::data "git:ref:branch" "\uf418 %s"
+euclid::data "git:ref:commit" "\uf417 %s"
 
 euclid::ref() {
   if [[ -n "$VCS_STATUS_TAG" ]]; then
@@ -33,10 +33,10 @@ euclid::ref() {
 
 euclid::optics "git:tracking" "214"
 
-euclid::fragment "git:tracking:even" ""
-euclid::fragment "git:tracking:ahead" " \uf44d"
-euclid::fragment "git:tracking:behind" " \uf48b"
-euclid::fragment "git:tracking:diverged" " \uf467"
+euclid::data "git:tracking:even" ""
+euclid::data "git:tracking:ahead" " \uf44d"
+euclid::data "git:tracking:behind" " \uf48b"
+euclid::data "git:tracking:diverged" " \uf467"
 
 euclid::tracking() {
   local ahead=$VCS_STATUS_COMMITS_AHEAD behind=$VCS_STATUS_COMMITS_BEHIND
@@ -57,10 +57,10 @@ euclid::optics "git:index:staged" "green"
 euclid::optics "git:index:unstaged" "red"
 euclid::optics "git:index:conflict" "red"
 
-euclid::fragment "git:index:clean" " \uf7d7"
-euclid::fragment "git:index:staged" " \uf7d8"
-euclid::fragment "git:index:unstaged" " \uf7d8"
-euclid::fragment "git:index:conflict" " \uf7d7"
+euclid::data "git:index:clean" " \uf7d7"
+euclid::data "git:index:staged" " \uf7d8"
+euclid::data "git:index:unstaged" " \uf7d8"
+euclid::data "git:index:conflict" " \uf7d7"
 
 euclid::staging() {
   local staged unstaged untracked conflicts
@@ -82,7 +82,7 @@ euclid::staging() {
 
 euclid::optics "git:stash" "blue"
 
-euclid::fragment "git:stash" " \uf461"
+euclid::data "git:stash" " \uf461"
 
 euclid::stash() {
   if (( VCS_STATUS_STASHES )); then

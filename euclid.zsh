@@ -16,15 +16,15 @@ euclid::optics() {
   esac
 }
 
-euclid::fragment() {
+euclid::data() {
   case $# in
     1)
-      local fragment
-      zstyle -s ":euclid:$1" "fragment" fragment
-      echo -n "$fragment"
+      local data
+      zstyle -s ":euclid:$1" "data" data
+      echo -n "$data"
       ;;
     2)
-      zstyle ":euclid:$1*" "fragment" "$2"
+      zstyle ":euclid:$1*" "data" "$2"
       ;;
     *)
       return 1
@@ -36,7 +36,7 @@ euclid::element() {
   local id=$1
   shift
   euclid::optics "$id"
-  printf "$(euclid::fragment "$id")" $@
+  printf "$(euclid::data "$id")" $@
   echo -n "%f"
 }
 

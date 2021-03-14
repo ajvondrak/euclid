@@ -4,14 +4,14 @@ euclid::optics "logo" "default"
 euclid::optics "logo:vicmd" "214"
 euclid::optics "logo:error" "red"
 
-euclid::fragment "logo" "\ufa62"
+euclid::data "logo" "\ufa62"
 
 euclid::logo() {
   if [[ $KEYMAP = "vicmd" ]]; then
     euclid::element "logo:vicmd"
   else
     echo -n "%(?.$(euclid::optics "logo").$(euclid::optics "logo:error"))"
-    echo -n "%(?.$(euclid::fragment "logo").$(euclid::fragment "logo:error"))"
+    echo -n "%(?.$(euclid::data "logo").$(euclid::data "logo:error"))"
     echo -n "%f"
   fi
 }

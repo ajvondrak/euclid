@@ -2,7 +2,7 @@
 
 euclid::optics "path" "green"
 
-euclid::fragment "path" "%%~ "
+euclid::data "path" "%%~ "
 
 euclid::path() {
   euclid::element "path"
