@@ -25,4 +25,5 @@ You could also use your [plugin manager of choice](https://gist.github.com/olets
 
 ## Documentation
 
+* [Settings](doc/settings.md)
 * [Architecture](doc/architecture.md)
