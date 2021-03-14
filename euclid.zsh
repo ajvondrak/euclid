@@ -75,6 +75,6 @@ function {
   for file ($EUCLID/data/**/* $EUCLID/elements/**/*) source $file
 }
 
-setopt prompt_subst transient_rprompt
+setopt prompt_subst
 PROMPT='$(euclid::elements "logo" "path")'
 RPROMPT='$(euclid::elements "git:ref" "git:tracking" "git:index" "git:stash")'
