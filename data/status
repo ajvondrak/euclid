@@ -1,0 +1,11 @@
+# vim: filetype=zsh
+
+euclid::data::status() {
+  if (( status )); then
+    euclid::data "status" "error"
+  else
+    euclid::data "status" "ok"
+  fi
+}
+
+add-zsh-hook precmd euclid::data::status

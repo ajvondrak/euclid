@@ -1,6 +1,5 @@
 # vim: filetype=zsh
 
-euclid::optics "logo" "default"
 euclid::optics "logo:vicmd" "214"
 euclid::optics "logo:error" "red"
 
@@ -12,8 +11,6 @@ euclid::elements::logo() {
   if [[ $KEYMAP = "vicmd" ]]; then
     euclid::fragment "logo:vicmd"
   else
-    echo -n "%(?.$(euclid::optics "logo").$(euclid::optics "logo:error"))"
-    echo -n "%(?.$(euclid::data "logo").$(euclid::data "logo:error"))"
-    echo -n "%f"
+    euclid::fragment "logo:$(euclid::data "status")"
   fi
 }
