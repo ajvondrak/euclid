@@ -69,4 +69,4 @@ The advantage of exposing these abstractions is that it's easier for the user to
 * customize the color & format of existing elements, and
 * define their own custom elements, possibly using existing fragments
 
-You can more complex element definitions under the [elements/](../elements) directory.
+You can see more complex element definitions under the [elements/](../elements) directory.
