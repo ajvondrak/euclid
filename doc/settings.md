@@ -51,7 +51,21 @@ This icon indicates the left prompt and changes colors to convey different infor
 
 ## `path`
 
-TODO
+### Description
+
+The current working directory with `$HOME` replaced by a tilde, `~`. The path is followed by a space, leaving a gap between it and your cursor in the default left prompt.
+
+### Optics
+
+| Setting        | Default   | Notes                                           |
+|----------------|-----------|-------------------------------------------------|
+| `path`         | `"green"` | -                                               |
+
+### Data
+
+| Setting        | Default  | Notes                                            |
+|----------------|----------|--------------------------------------------------|
+| `path`         | `"%%~ "` | `%` must be `printf`-escaped; hard-coded space   |
 
 ## `git:ref`
 
