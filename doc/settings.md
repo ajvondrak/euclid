@@ -177,4 +177,26 @@ euclid::data "git:index:conflict" "!%d"         # !4
 
 ## `git:stash`
 
-TODO
+### Description
+
+In a git repo, this element indicates whether you have any stashed changes. If there aren't any, this element won't render.
+
+### Optics
+
+| Setting     | Default  | Notes                                               |
+|-------------|----------|-----------------------------------------------------|
+| `git:stash` | `"blue"` | -                                                   |
+
+### Data
+
+| Setting     | Default    | Notes                                             |
+|-------------|------------|---------------------------------------------------|
+| `git:stash` | `"\uf461"` | A bookmark icon                                   |
+
+**N.B.** Although the default format string doesn't use it, a single `printf` argument is always supplied with the number of items in the git stash.
+
+For example, you could set
+
+```zsh
+euclid::data "git:stash" "%d*" # 123*
+```
