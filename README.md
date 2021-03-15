@@ -1,6 +1,6 @@
 # Euclid
 
-![logo](logo.svg)
+![logo](images/logo.svg)
 
 A minimalist zsh prompt inspired by [geometry](https://github.com/geometry-zsh/geometry).
 
@@ -22,6 +22,16 @@ $ source euclid/euclid.zsh
 ```
 
 You could also use your [plugin manager of choice](https://gist.github.com/olets/06009589d7887617e061481e22cf5a4a).
+
+## Screenshots
+
+The screenshots below were made using an [iTerm2](https://iterm2.com/) window with the builtin [Tango Dark](https://github.com/mbadolato/iTerm2-Color-Schemes#builtin-tango-dark) color presets. The main font is [Menlo](https://en.wikipedia.org/wiki/Menlo_%28typeface%29), while the icons use the [SauceCodePro Nerd Font](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/SourceCodePro).
+
+![Example showing the different states of the left prompt.](images/prompt.png)
+![Example showing the different states of the git ref in the right prompt.](images/git-ref.png)
+![Example showing the different states of git tracking in the right prompt.](images/git-tracking.png)
+![Example showing the different states of the git index in the right prompt.](images/git-index.png)
+![Example showing the different states of the git stash in the right prompt.](images/git-stash.png)
 
 ## Documentation
 
