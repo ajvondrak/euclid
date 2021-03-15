@@ -92,7 +92,44 @@ When you're in a git directory, this element will display the symbolic reference
 
 ## `git:tracking`
 
-TODO
+### Description
+
+If your local branch is tracking a remote branch, this element will tell you the relative difference between their histories. This falls into four possible states:
+* even - local branch has all the same commits as the remote (neither ahead nor behind)
+* ahead - local branch has more commits than the remote; you can `git push`
+* behind - remote branch has more commits than the local; you can `git pull`
+* diverged - each branch has some commits that the other one doesn't (simultaneously ahead and behind)
+
+### Optics
+
+| Setting                 | Default | Notes                                    |
+|-------------------------|---------|------------------------------------------|
+| `git:tracking`          | `"214"` | Orange; sets default for all the below   |
+| `git:tracking:even`     | -       | Specific color for even tracking         |
+| `git:tracking:ahead`    | -       | Specific color for ahead tracking        |
+| `git:tracking:behind`   | -       | Specific color for behind tracking       |
+| `git:tracking:diverged` | -       | Specific color for diverged tracking     |
+
+### Data
+
+| Setting                 | Default    | Notes                                 |
+|-------------------------|------------|---------------------------------------|
+| `git:tracking:even`     | `""`       | No indicator shown for even branches  |
+| `git:tracking:ahead`    | `"\uf44d"` | A heavy plus sign                     |
+| `git:tracking:behind`   | `"\uf48b"` | A heavy minus sign                    |
+| `git:tracking:diverged` | `"\uf467"` | A heavy x mark                        |
+
+**N.B.** Although none of the default format strings use these, they are always given two `printf` arguments:
+1. the number of commits ahead
+2. the number of commits behind
+
+For example, you could set
+
+```zsh
+euclid::data "git:tracking:ahead"    "+%d"       # +10 (ignores behind)
+euclid::data "git:tracking:behind"   "%0.0s-%d"  # -20 (ignores ahead)
+euclid::data "git:tracking:diverged" "+%d|-%d"   # +10|-20
+```
 
 ## `git:index`
 
