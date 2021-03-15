@@ -69,7 +69,23 @@ The current working directory with `$HOME` replaced by a tilde, `~`. The path is
 
 ## `git:ref`
 
-TODO
+### Description
+
+When you're in a git directory, this element will display the symbolic reference for `HEAD`. If it's a tagged commit, the tag name will be shown. If `HEAD` is detached, it will show up as an abbreviated commit hash. 99% of the time, though, it'll just be the name of the branch you're currently on.
+
+### Optics
+
+| Setting   | Default | Notes                                                  |
+|-----------|---------|--------------------------------------------------------|
+| `git:ref` | `"13"`  | Magenta                                                |
+
+### Data
+
+| Setting          | Default       | Notes                                     |
+|------------------|---------------|-------------------------------------------|
+| `git:ref:tag`    | `"\uf412 %s"` | A tag icon with the tag's name            |
+| `git:ref:branch` | `"\uf418 %s"` | A branch icon with the branch's name      |
+| `git:ref:commit` | `"\uf417 %s"` | A commit icon with the commit's hash      |
 
 ## `git:tracking`
 
