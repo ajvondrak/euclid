@@ -74,7 +74,6 @@ euclid::fragment() {
 
 function {
   autoload -Uz add-zsh-hook
-  setopt localoptions extendedglob
   local file
   for file ($EUCLID/data/**/* $EUCLID/elements/**/*) source $file
 }
