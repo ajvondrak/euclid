@@ -34,20 +34,20 @@ This icon indicates the left prompt and changes colors to convey different infor
 
 ### Optics
 
-| Name           | Default | Notes                                            |
-|----------------|---------|--------------------------------------------------|
-| `logo:ok`      | -       | Normal text; indicates last exit status was zero |
-| `logo:error`   | `red`   | Indicates last exit status was non-zero          |
-| `logo:vicmd`   | `214`   | Orange; indicates vi mode                        |
+| Setting        | Default | Notes                                             |
+|----------------|---------|---------------------------------------------------|
+| `logo:ok`      | -       | Normal text; indicates last exit status was zero  |
+| `logo:error`   | `"red"` | Indicates last exit status was non-zero           |
+| `logo:vicmd`   | `"214"` | Orange; indicates vi mode                         |
 
 ### Data
 
-| Name           | Default  | Notes                                            |
-|----------------|----------|--------------------------------------------------|
-| `logo`         | `\ufa62` | Sets the default logo for all three of the below |
-| `logo:ok`      | -        | Logo when the last exit status was zero          |
-| `logo:error`   | -        | Logo when the last exit status was non-zero      |
-| `logo:vicmd`   | -        | Logo when you're in vi mode                      |
+| Setting        | Default    | Notes                                          |
+|----------------|------------|------------------------------------------------|
+| `logo`         | `"\ufa62"` | Sets default logo for all three of the below   |
+| `logo:ok`      | -          | Logo when the last exit status was zero        |
+| `logo:error`   | -          | Logo when the last exit status was non-zero    |
+| `logo:vicmd`   | -          | Logo when you're in vi mode                    |
 
 ## `path`
 
