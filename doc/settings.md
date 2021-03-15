@@ -71,7 +71,7 @@ The current working directory with `$HOME` replaced by a tilde, `~`. The path is
 
 ### Description
 
-When you're in a git directory, this element will display the symbolic reference for `HEAD`. If it's a tagged commit, the tag name will be shown. If `HEAD` is detached, it will show up as an abbreviated commit hash. 99% of the time, though, it'll just be the name of the branch you're currently on.
+In a git repo, this element will display the symbolic reference for `HEAD`. If it's a tagged commit, the tag name will be shown. If `HEAD` is detached, it will show up as an abbreviated commit hash. 99% of the time, though, it'll just be the name of the branch you're currently on.
 
 ### Optics
 
@@ -94,7 +94,7 @@ When you're in a git directory, this element will display the symbolic reference
 
 ### Description
 
-If your local branch is tracking a remote branch, this element will tell you the relative difference between their histories. This falls into four possible states:
+In a git repo, if your local branch is tracking a remote branch, this element will tell you the relative difference between their histories. This falls into four possible states:
 * even - local branch has all the same commits as the remote (neither ahead nor behind)
 * ahead - local branch has more commits than the remote; you can `git push`
 * behind - remote branch has more commits than the local; you can `git pull`
@@ -119,7 +119,7 @@ If your local branch is tracking a remote branch, this element will tell you the
 | `git:tracking:behind`   | `"\uf48b"` | A heavy minus sign                    |
 | `git:tracking:diverged` | `"\uf467"` | A heavy x mark                        |
 
-**N.B.** Although none of the default format strings use these, they are always given two `printf` arguments:
+**N.B.** Although none of the default format strings use them, they are always given two `printf` arguments:
 1. the number of commits ahead
 2. the number of commits behind
 
@@ -133,7 +133,47 @@ euclid::data "git:tracking:diverged" "+%d|-%d"   # +10|-20
 
 ## `git:index`
 
-TODO
+### Description
+
+In a git repo, this element shows the status of the git index. This is divided into four possible states:
+* clean - there are no changes to your working tree
+* staged - at least one change to your working tree is staged for commit
+* unstaged - there are changes to your working tree, but nothing has been staged for commit
+* conflict - you're in the middle of a merge conflict
+
+By default, this is indicated with the four combinations of two possible colors with two possible icons. Red is used for "dirty" states (unstaged, conflict) and green is used for "clean" states (clean, staged). The icon is a hexgon, which is either filled for "complete" states (clean, conflict) or unfilled for "partial" states (staged, unstaged). Taken altogether, this is a lot of bird's eye view information packed into one icon!
+
+### Optics
+
+| Setting              | Default    | Notes                                    |
+|----------------------|------------|------------------------------------------|
+| `git:index:clean`    | `"green"`  | -                                        |
+| `git:index:staged`   | `"green"`  | -                                        |
+| `git:index:unstaged` | `"red"`    | -                                        |
+| `git:index:conflict` | `"red"`    | -                                        |
+
+### Data
+
+| Setting              | Default    | Notes                                    |
+|----------------------|------------|------------------------------------------|
+| `git:index:clean`    | `"\uf7d7"` | A filled-in hexagon                      |
+| `git:index:staged`   | `"\uf7d8"` | An unfilled hexagon outline              |
+| `git:index:unstaged` | `"\uf7d8"` | An unfilled hexagon outline              |
+| `git:index:conflict` | `"\uf7d7"` | A filled-in hexagon                      |
+
+**N.B.** Although none of the default format strings use them, they are always given `printf` arguments. `git:index:conflict` is given the number of files with merge conflicts. The others are given:
+1. the number of staged files
+2. the number of unstaged files
+3. the number of untracked files
+
+For example, you could set
+
+```zsh
+euclid::data "git:index:clean"     "="          # just the equal sign
+euclid::data "git:index:staged"   "+%d -%d ?%d" # +1 -2 ?3
+euclid::data "git:index:unstaged" "+%d -%d ?%d" # +0 -2 ?3
+euclid::data "git:index:conflict" "!%d"         # !4
+```
 
 ## `git:stash`
 
