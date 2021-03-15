@@ -33,7 +33,7 @@ euclid::optics() {
     1)
       local optics
       zstyle -s ":euclid:$1" "optics" optics
-      echo -n "%F{${optics:-default}}"
+      echo -n "%F{${optics:-none}}"
       ;;
     2)
       zstyle ":euclid:$1*" "optics" "$2"
