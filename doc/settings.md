@@ -28,7 +28,26 @@ The built-in elements available to you are all documented below.
 
 ## `logo`
 
-TODO
+### Description
+
+This icon indicates the left prompt and changes colors to convey different information. By default, it's not colored (it's just the same as normal foreground text). If the last command exited with an error, it will be highlighted red. If you go into [`vicmd`](http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html#Keymaps) mode, it will toggle to orange.
+
+### Optics
+
+| Name           | Default | Notes                                            |
+|----------------|---------|--------------------------------------------------|
+| `logo:ok`      | -       | Normal text; indicates last exit status was zero |
+| `logo:error`   | `red`   | Indicates last exit status was non-zero          |
+| `logo:vicmd`   | `214`   | Orange; indicates vi mode                        |
+
+### Data
+
+| Name           | Default  | Notes                                            |
+|----------------|----------|--------------------------------------------------|
+| `logo`         | `\ufa62` | Sets the default logo for all three of the below |
+| `logo:ok`      | -        | Logo when the last exit status was zero          |
+| `logo:error`   | -        | Logo when the last exit status was non-zero      |
+| `logo:vicmd`   | -        | Logo when you're in vi mode                      |
 
 ## `path`
 
