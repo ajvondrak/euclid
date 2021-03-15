@@ -75,9 +75,12 @@ When you're in a git directory, this element will display the symbolic reference
 
 ### Optics
 
-| Setting   | Default | Notes                                                  |
-|-----------|---------|--------------------------------------------------------|
-| `git:ref` | `"13"`  | Magenta                                                |
+| Setting          | Default | Notes                                           |
+|------------------|---------|-------------------------------------------------|
+| `git:ref`        | `"13"`  | Magenta; sets default for all the below         |
+| `git:ref:tag`    | -       | Specific color for tags                         |
+| `git:ref:branch` | -       | Specific color for branches                     |
+| `git:ref:commit` | -       | Specific color for commits                      |
 
 ### Data
 
