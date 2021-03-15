@@ -10,7 +10,17 @@ You pass two arguments into each function: the name and value of the setting. Fo
 euclid::optics "path" "red"
 ```
 
-This document describes the possible settings for all of the elements that come built into Euclid. For more details on how these functions fit together, read up on [Euclid's architecture](architecture.md). However, you can still just plug in the values given below without needing to know the design.
+This document describes the possible settings for all of the elements that come built into Euclid. For more details on how these functions fit together, read up on [Euclid's architecture](architecture.md). However, you can still just plug in values as given here without needing to know the design.
+
+## Contents
+
+* [`PROMPT` and `RPROMPT`](#prompt-and-rprompt)
+* [`logo`](#logo)
+* [`path`](#path)
+* [`git:ref`](#gitref)
+* [`git:tracking`](#gittracking)
+* [`git:index`](#gitindex)
+* [`git:stash`](#gitstash)
 
 ## `PROMPT` and `RPROMPT`
 
