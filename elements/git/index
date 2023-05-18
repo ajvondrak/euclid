@@ -5,10 +5,10 @@ euclid::optics "git:index:staged" "green"
 euclid::optics "git:index:unstaged" "red"
 euclid::optics "git:index:conflict" "red"
 
-euclid::data "git:index:clean" "\uf7d7"
-euclid::data "git:index:staged" "\uf7d8"
-euclid::data "git:index:unstaged" "\uf7d8"
-euclid::data "git:index:conflict" "\uf7d7"
+euclid::data "git:index:clean" "\Uf02d8"
+euclid::data "git:index:staged" "\Uf02d9"
+euclid::data "git:index:unstaged" "\Uf02d9"
+euclid::data "git:index:conflict" "\Uf02d8"
 
 euclid::element "git:index" euclid::elements::git::index
 

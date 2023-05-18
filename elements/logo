@@ -3,7 +3,7 @@
 euclid::optics "logo:vicmd" "214"
 euclid::optics "logo:error" "red"
 
-euclid::data "logo" "\ufa62"
+euclid::data "logo" "\Uf0563"
 
 euclid::element "logo" euclid::elements::logo
 

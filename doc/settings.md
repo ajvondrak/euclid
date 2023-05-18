@@ -52,12 +52,12 @@ This icon indicates the left prompt and changes colors to convey different infor
 
 ### Data
 
-| Setting        | Default    | Notes                                          |
-|----------------|------------|------------------------------------------------|
-| `logo`         | `"\ufa62"` | Sets default logo for all three of the below   |
-| `logo:ok`      | -          | Logo when the last exit status was zero        |
-| `logo:error`   | -          | Logo when the last exit status was non-zero    |
-| `logo:vicmd`   | -          | Logo when you're in vi mode                    |
+| Setting        | Default     | Notes                                          |
+|----------------|-------------|------------------------------------------------|
+| `logo`         | `"\Uf0563"` | Sets default logo for all three of the below   |
+| `logo:ok`      | -           | Logo when the last exit status was zero        |
+| `logo:error`   | -           | Logo when the last exit status was non-zero    |
+| `logo:vicmd`   | -           | Logo when you're in vi mode                    |
 
 ## `path`
 
@@ -164,12 +164,12 @@ By default, this is indicated with the four combinations of two possible colors 
 
 ### Data
 
-| Setting              | Default    | Notes                                    |
-|----------------------|------------|------------------------------------------|
-| `git:index:clean`    | `"\uf7d7"` | A filled-in hexagon                      |
-| `git:index:staged`   | `"\uf7d8"` | An unfilled hexagon outline              |
-| `git:index:unstaged` | `"\uf7d8"` | An unfilled hexagon outline              |
-| `git:index:conflict` | `"\uf7d7"` | A filled-in hexagon                      |
+| Setting              | Default     | Notes                                    |
+|----------------------|-------------|------------------------------------------|
+| `git:index:clean`    | `"\Uf02d8"` | A filled-in hexagon                      |
+| `git:index:staged`   | `"\Uf02d9"` | An unfilled hexagon outline              |
+| `git:index:unstaged` | `"\Uf02d9"` | An unfilled hexagon outline              |
+| `git:index:conflict` | `"\Uf02d8"` | A filled-in hexagon                      |
 
 **N.B.** Although none of the default format strings use them, they are always given `printf` arguments. `git:index:conflict` is given the number of files with merge conflicts. The others are given:
 1. the number of staged files
